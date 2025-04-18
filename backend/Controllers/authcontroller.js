@@ -15,10 +15,10 @@ export const registration = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedpassword = await bcrypt.hash(password, salt);
 
-        const newuser = new User({ username, email, password:hashedpassword })
+        const newuser = new User({ username, email, password: hashedpassword })
         await newuser.save();
 
-        res.status(201).json({ msg: "User registraion successfully",newuser });
+        res.status(201).json({ msg: "User registraion successfully", newuser });
     }
     catch (err) {
         res.status(500).json({ msg: "Error in registration", err });
@@ -43,10 +43,16 @@ export const login = async (req, res) => {
             sameSite: 'Lax',
             maxAge: 3600000
         })
-        res .status(200).json({ msg: "Login successfully",user:{username:user.username,email:user.email} });
+        res.status(200).json({ msg: "Login successfully", user: { username: user.username, email: user.email } });
     }
-    catch(err){
+    catch (err) {
         console.log(err)
-        res.status(500).json({ err , msg: "Error in login"});
+        res.status(500).json({ err, msg: "Error in login" });
     }
 }
+
+export const logout = (req, res) => {
+    res.clearCookie('token');
+    res.status(200).json({ message: 'Logged out successfully' });
+};
+

@@ -3,6 +3,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authroutes.js';
+import postRoutes from './routes/postroutes.js';
 import mongoose from 'mongoose';
 
 dotenv.config()
@@ -20,7 +21,9 @@ mongoose.connect(process.env.MONGO_URL)
     })
     .catch((err) => { console.log(err) })
 
+
 app.use('/api/auth', authRoutes)
+app.use('/api/posts',postRoutes)
 
 app.listen(5000, () => {
     console.log("server is running on port 5000")
