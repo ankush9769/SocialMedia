@@ -6,7 +6,7 @@ const Navbar = () => {
   const { logout, user } = useAuth()
   return (
 
-    <nav className="navbar " style={{background:"#121414"}}>
+    <nav className="navbar " style={{background:"#121414" }}>
       <div className="container-fluid"  style={{background:"#121414"}}>
         <Link to="/" style={{textDecoration: "none" }}><b style={{ color: "blue", fontSize: "2rem",background:"#121414"}}>WorldThread🌍</b></Link>
         <form className="d-flex gap-2" role="search">

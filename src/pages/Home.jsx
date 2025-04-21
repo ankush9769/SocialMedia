@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react'
-// import { useAuth } from '../context/AuthContext'
+// import '../style/Homecss.css';
 import axios from 'axios';
 
 const Home = () => {
   const [content, setContent] = useState('');
   const [posts, setPosts] = useState([]);
 
-  // fetch all posts
   const fetchPosts = async () => {
     try {
       const res = await axios.get('http://localhost:5000/api/posts', { withCredentials: true });
-      console.log("data comes from the server", res.data)
+      console.log("data comes from the server", res.data);
       if (res.data.allposts && Array.isArray(res.data.allposts)) {
         setPosts(res.data.allposts);
       } else {
@@ -32,14 +31,15 @@ const Home = () => {
     try {
       await axios.post('http://localhost:5000/api/posts/create', { content }, { withCredentials: true });
       setContent('');
-      fetchPosts(); // refresh post list
+      fetchPosts();
     } catch (err) {
       console.error('Failed to post');
     }
   };
+
   return (
     <div className="container my-5">
-        <style>
+    <style>
         {`
           textarea::placeholder {
             color: white !important; /* Change placeholder color */
@@ -47,39 +47,37 @@ const Home = () => {
         `}
       </style>
       <form onSubmit={handleCreatePost} className="mb-4">
-        <div className="mb-3 " >
+        <div className="mb-3">
           <textarea
             className="form-control bg-dark text-white"
             placeholder="What's on your mind?"
             value={content}
             onChange={e => setContent(e.target.value)}
             rows="3"
-            style={{ color: "white" }} // Applies text color inside the textarea
           />
         </div>
         <button type="submit" className="btn btn-primary">Post</button>
       </form>
 
-      <h3 className="mb-4">All Posts</h3>
+      <h3 className="mb-4 text-white">All Posts</h3>
 
       {posts.length > 0 ? (
         posts.map((post, i) => (
-          <div key={i} className="card mb-3 ">
-            <div className="card-body ">
-              <h5 className="card-title " style={{ color: "white" }}>{post.author.username || "Unknown User"}</h5>
+          <div key={i} className="card mb-3">
+            <div className="card-body">
+              <h4 className="card-title" style={{color:"white"}}>{post.author.username || "Unknown User"}</h4>
               <p className="card-text">{post.content}</p>
-              <p className="card-text" style={{ color: "white", display: "flex", justifyContent: "end" }}>
-                <small className="text" >{new Date(post.createdAt).toLocaleString()}</small>
+              <p className="card-text d-flex justify-content-end">
+                <small className="text">{new Date(post.createdAt).toLocaleString()}</small>
               </p>
             </div>
           </div>
         ))
       ) : (
-        <div className="alert alert-info">No posts yet.</div>
+        <div className="alert alert-secondary">No posts yet.</div>
       )}
     </div>
+  );
+};
 
-  )
-}
-
-export default Home
+export default Home;

@@ -28,17 +28,19 @@ const Profile = () => {
     return (
         <div className="container mt-5 ">
             <div className="card p-4 shadow-sm bg-dark">
-                <h2 className="mb-4 bg-dark" style={{color:"white"}}>My Profile</h2>
+                <h2 className="mb-4 bg-dark" style={{ color: "white" }}>My Profile</h2>
                 <p className='bg-dark'><strong className='bg-dark'>Username:</strong> {profile.user.username}</p>
                 <p className='bg-dark'><strong className='bg-dark'>Email:</strong> {profile.user.email}</p>
 
-                <h4 className="mt-5 bg-dark " style={{color:"white"}}>My Posts</h4>
+                <h4 className="mt-5 bg-dark " style={{ color: "white" }}>My Posts</h4>
                 {profile.posts.length > 0 ? (
                     profile.posts.map((post, idx) => (
                         <div key={idx} className="card mb-3">
                             <div className="card-body">
                                 <p className="card-text">{post.content}</p>
-                                <small className="text-muted">{new Date(post.createdAt).toLocaleString()}</small>
+                                <p className="card-text d-flex justify-content-end">
+                                    <small className="text">{new Date(post.createdAt).toLocaleString()}</small>
+                                </p>
                             </div>
                         </div>
                     ))
