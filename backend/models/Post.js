@@ -27,8 +27,8 @@ const postSchema = new mongoose.Schema({
         type:mongoose. Schema.Types.ObjectId,
         ref: 'User'
     }],
-    comments:[commentSchema]
-})
+    comments:[commentSchema],
+},{timestamps:true})
 
 const Post = mongoose.model('Post', postSchema);
 

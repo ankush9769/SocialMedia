@@ -1,4 +1,4 @@
-// import User from '../models/User.js';
+import User from '../models/User.js';
 import Post from '../models/Post.js';
 
 export const createpost=async (req,res)=>{        //post creation
@@ -22,7 +22,7 @@ export const createpost=async (req,res)=>{        //post creation
 
 export const getallpost=async (req,res)=>{                //getting all post for feed
     try{
-        const allposts= await Post.find().sort({createdAt:-1}).populate('author','username email').populate('comments.userID','username')
+        const allposts= await Post.find().sort({createdAt:-1}).populate('author','username email').populate('comments.userId','username')
         return res.status(200).json({allposts})
     }
     catch(err){
@@ -69,5 +69,22 @@ export const commentonpost= async (req,res)=>{            //comment on the post
     }
     catch(err){
         return res.status(500).json({message:"error commenting on post",err:err.messag})
+    }
+}
+
+
+export const profile =async (req,res)=>{
+    const userId = req.userId;           //comes from backend protect routes
+
+    try{
+        const user = await User.findById(userId)
+        if(!user) return res.status(404).json({message:"user not found"});
+        
+        const posts = await Post.find({ author: userId })
+        return res.status(200).json({message:"user profile",user:user,posts:posts})
+    }
+    catch(err){
+        console.log(err)
+        return res.status(500).json({message:"error fetching user profile",err:err.message})
     }
 }
